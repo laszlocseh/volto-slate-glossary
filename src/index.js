@@ -1,5 +1,7 @@
+import installGlossary from './editor';
+
 const applyConfig = (config) => {
-  return config;
+  return installGlossary(config);
 };
 
 export default applyConfig;
