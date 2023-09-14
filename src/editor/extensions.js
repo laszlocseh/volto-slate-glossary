@@ -1,6 +1,6 @@
 import { GLOSSARY } from './constants';
 
-export const withGLOSSARY = (editor) => {
+export const withGlossary = (editor) => {
   const { isInline } = editor;
 
   editor.isInline = (element) => {

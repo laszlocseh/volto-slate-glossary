@@ -3,7 +3,7 @@ import { makeInlineElementPlugin } from '@plone/volto-slate/elementEditor';
 import { GlossarySchema } from './schema';
 import { withGlossary } from './extensions';
 import { GLOSSARY } from './constants';
-// import { DataEntityElement } from './render';
+import { GlossaryElement } from './render';
 // import SchemaProvider from './SchemaProvider';
 import blogSVG from '@plone/volto/icons/blog.svg';
 
@@ -24,7 +24,7 @@ export default function install(config) {
   const opts = {
     pluginId: GLOSSARY,
     elementType: GLOSSARY,
-    element: '', // DataEntityElement,
+    element: GlossaryElement, // DataEntityElement,
     isInlineElement: true,
     editSchema: GlossarySchema,
     // schemaProvider: SchemaProvider,

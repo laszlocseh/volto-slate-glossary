@@ -10,8 +10,18 @@ export const GlossarySchema = {
   properties: {
     glossary_term: {
       title: 'Glossary term',
-      //   widget: 'object_by_path',
-      type: 'string',
+      widget: 'autocomplete',
+      // vocabulary: 'eea.api.glossary.GlossaryTerms',
+      vocabulary: { '@id': 'eea.api.glossary.GlossaryTerms' },
+      // type: 'string',
+      factory: {
+        type: 'string',
+        factory: 'Choice',
+        title: 'Something here',
+        vocabulary: {
+          glossary_term: `eea.api.glossary.GlossaryTerms`,
+        },
+      },
     },
     popup_position: {
       title: 'Popup position',
@@ -19,10 +29,14 @@ export const GlossarySchema = {
       type: 'string',
       factory: 'Choice',
       choices: [
-        ['pointing', 'Up'],
-        ['right pointing', 'Right'],
-        ['left pointing', 'Left'],
-        ['pointing below', 'Down'],
+        ['top center', 'top center'],
+        ['top left', 'top left'],
+        ['top right', 'top right'],
+        ['bottom center', 'bottom center'],
+        ['bottom left', 'bottom left'],
+        ['bottom right', 'bottom right'],
+        ['right center', 'right center'],
+        ['left center', 'left center'],
       ],
     },
   },
