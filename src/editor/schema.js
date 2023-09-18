@@ -10,18 +10,17 @@ export const GlossarySchema = {
   properties: {
     glossary_term: {
       title: 'Glossary term',
-      widget: 'autocomplete',
-      // vocabulary: 'eea.api.glossary.GlossaryTerms',
+      widget: 'autocompleteglossary',
       vocabulary: { '@id': 'eea.api.glossary.GlossaryTerms' },
       // type: 'string',
-      factory: {
-        type: 'string',
-        factory: 'Choice',
-        title: 'Something here',
-        vocabulary: {
-          glossary_term: `eea.api.glossary.GlossaryTerms`,
-        },
-      },
+      // factory: {
+      //   type: 'string',
+      //   factory: 'Choice',
+      //   title: 'Something here',
+      //   vocabulary: {
+      //     glossary_term: `eea.api.glossary.GlossaryTerms`,
+      //   },
+      // },
     },
     popup_position: {
       title: 'Popup position',

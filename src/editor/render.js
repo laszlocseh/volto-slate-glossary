@@ -1,16 +1,37 @@
 import { Popup } from 'semantic-ui-react';
 import cx from 'classnames';
-import {
-  serializeNodes,
-  serializeNodesToText,
-} from '@plone/volto-slate/editor/render';
+
+export const GlossaryPopupValue = (props) => {
+  const { glossaryTerm } = props;
+
+  const glossaryTermJSON =
+    glossaryTerm !== undefined ? JSON.parse(glossaryTerm) : '';
+
+  return glossaryTermJSON ? (
+    <div>
+      <div>
+        <b>{glossaryTermJSON['term']}</b>
+      </div>
+      <div>{glossaryTermJSON['definition']}</div>
+      <div>
+        <span>
+          <b>Source: </b>
+        </span>
+        <span>{glossaryTermJSON['source']}</span>
+      </div>
+    </div>
+  ) : (
+    ''
+  );
+};
 
 export const GlossaryElement = (props) => {
   const { attributes, children, element, mode } = props;
   const { data = {} } = element;
   const { uid, popup_position } = data;
 
-  console.log('data', data);
+  const glossaryTerm = data?.glossary_term || '';
+
   return (
     <>
       {mode === 'view' ? (
@@ -31,8 +52,10 @@ export const GlossaryElement = (props) => {
             }
             className={popup_position}
           >
-            {/* {serializeNodes(data.tooltip_content)} */}
-            {data.glossary_term}
+            <GlossaryPopupValue
+              glossaryTerm={glossaryTerm ? glossaryTerm[0] : ''}
+              // glossaryTerm={glossaryTerm ? glossaryTerm : ''}
+            />
           </Popup>
         </span>
       ) : (
