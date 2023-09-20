@@ -2,12 +2,9 @@ import { defineMessages } from 'react-intl'; // , defineMessages
 import { makeInlineElementPlugin } from '@plone/volto-slate/elementEditor';
 import { GlossarySchema } from './schema';
 import { withGlossary } from './extensions';
-import { GLOSSARY } from './constants';
+import { GLOSSARY, GLOSSARYSVG } from './constants';
 import { GlossaryElement } from './render';
 // import SchemaProvider from './SchemaProvider';
-import blogSVG from '@plone/volto/icons/blog.svg';
-
-// import './styles.less';
 
 const messages = defineMessages({
   edit: {
@@ -30,7 +27,7 @@ export default function install(config) {
     // schemaProvider: SchemaProvider,
     extensions: [withGlossary],
     hasValue: (formData) => !!formData,
-    toolbarButtonIcon: blogSVG,
+    toolbarButtonIcon: GLOSSARYSVG,
     title: 'Glossary',
     messages,
   };

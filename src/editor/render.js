@@ -1,5 +1,8 @@
 import { Popup } from 'semantic-ui-react';
+import { Icon } from '@plone/volto/components';
 import cx from 'classnames';
+import { GLOSSARYSVG } from './constants';
+import './style.less';
 
 export const GlossaryPopupValue = (props) => {
   const { glossaryTerm } = props;
@@ -38,23 +41,26 @@ export const GlossaryElement = (props) => {
         <span id={`ref-${uid}`} aria-describedby="slate-label">
           <Popup
             position={popup_position}
-            // open={data.always_show || undefined}
-            // on={!data.always_show ? 'hover' : undefined}
             on="hover"
             trigger={
               <span
                 id={`label_ref-${uid}`}
                 {...attributes}
-                className={cx(popup_position, 'label-node with-popup')}
+                className={cx(popup_position, 'slate-popup-item glossary-item')}
               >
                 {children}
+                <Icon
+                  name={GLOSSARYSVG}
+                  size="14px"
+                  className="glossary-icon"
+                />
               </span>
             }
             className={popup_position}
           >
             <GlossaryPopupValue
-              glossaryTerm={glossaryTerm ? glossaryTerm[0] : ''}
-              // glossaryTerm={glossaryTerm ? glossaryTerm : ''}
+              glossaryTerm={glossaryTerm ? glossaryTerm : ''}
+              // glossaryTerm={glossaryTerm ? glossaryTerm[0] : ''}
             />
           </Popup>
         </span>
@@ -62,7 +68,7 @@ export const GlossaryElement = (props) => {
         <span
           id={`label_ref-${uid}`}
           {...attributes}
-          className="label-node with-popup"
+          className="slate-popup-item glossary-item"
         >
           {children}
         </span>

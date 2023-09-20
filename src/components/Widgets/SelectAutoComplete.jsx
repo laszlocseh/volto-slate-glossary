@@ -41,6 +41,8 @@ import { GlossaryPopupValue } from '../../editor/render';
 import checkSVG from '@plone/volto/icons/check.svg';
 import checkBlankSVG from '@plone/volto/icons/check-blank.svg';
 
+import './style.less';
+
 const messages = defineMessages({
   select: {
     id: 'Select…',
@@ -54,6 +56,24 @@ const messages = defineMessages({
     id: 'Type text...',
     defaultMessage: 'Type text...',
   },
+});
+
+const SingleValue = injectLazyLibs('reactSelect')(({ children, ...props }) => {
+  const { SingleValue } = props.reactSelect.components;
+  const glossaryTerm = props.data.label;
+  const glossaryTermJSON =
+    glossaryTerm !== undefined ? JSON.parse(glossaryTerm) : '';
+
+  return (
+    <Popup
+      content={<GlossaryPopupValue glossaryTerm={glossaryTerm} />}
+      trigger={
+        <div {...props.innerProps}>
+          <SingleValue {...props}>{glossaryTermJSON?.term}</SingleValue>
+        </div>
+      }
+    />
+  );
 });
 
 const MultiValueContainer = injectLazyLibs('reactSelect')((props) => {
@@ -85,7 +105,6 @@ const Option = injectLazyLibs('reactSelect')((props) => {
   return (
     <Option {...props}>
       <div>
-        {/* {props.label} */}
         <GlossaryPopupValue glossaryTerm={props.label} />
       </div>
       <Icon name={svgIcon} size="20px" color={color} />
@@ -120,9 +139,7 @@ class SelectAutoComplete extends Component {
     widgetOptions: PropTypes.shape({
       vocabulary: PropTypes.object,
     }),
-    value: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    ),
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     wrapped: PropTypes.bool,
     isDisabled: PropTypes.bool,
@@ -193,32 +210,6 @@ class SelectAutoComplete extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   if (
-  //     (!this.props.choices || this.props.choices?.length === 0) &&
-  //     this.props.vocabBaseUrl
-  //   ) {
-  //     this.props.getVocabulary({
-  //       vocabNameOrURL: this.props.vocabBaseUrl,
-  //       size: -1,
-  //       subrequest: this.props.lang,
-  //     });
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (
-  //     this.props.vocabBaseUrl !== prevProps.vocabBaseUrl &&
-  //     (!this.props.choices || this.props.choices?.length === 0)
-  //   ) {
-  //     this.props.getVocabulary({
-  //       vocabNameOrURL: this.props.vocabBaseUrl,
-  //       size: -1,
-  //       subrequest: this.props.lang,
-  //     });
-  //   }
-  // }
-
   /**
    * Handle the field change, store it in the local state and back to simple
    * array of tokens for correct serialization
@@ -229,11 +220,11 @@ class SelectAutoComplete extends Component {
   handleChange(selectedOption) {
     this.props.onChange(
       this.props.id,
-      selectedOption ? selectedOption.map((item) => item.value) : null,
-      // selectedOption ? selectedOption.value : null,
+      // selectedOption ? selectedOption.map((item) => item.value) : null,
+      selectedOption ? selectedOption.value : undefined,
     );
     this.setState((state) => ({
-      termsPairsCache: [...state.termsPairsCache, ...selectedOption],
+      termsPairsCache: [...state.termsPairsCache, selectedOption],
     }));
   }
 
@@ -305,6 +296,7 @@ class SelectAutoComplete extends Component {
           styles={customSelectStyles}
           theme={selectTheme}
           components={{
+            SingleValue,
             ...(this.props.choices?.length > 25 && {
               MenuList,
             }),
@@ -313,14 +305,13 @@ class SelectAutoComplete extends Component {
             DropdownIndicator,
             Option,
           }}
-          value={selectedOption || []}
+          value={selectedOption}
           placeholder={
             this.props.placeholder ??
             this.props.intl.formatMessage(messages.select)
           }
           onChange={this.handleChange}
-          isMulti
-          // isMulti={false}
+          isMulti={false}
         />
       </FormFieldWrapper>
     );
